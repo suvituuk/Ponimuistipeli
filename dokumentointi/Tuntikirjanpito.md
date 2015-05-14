@@ -1,2 +1,2 @@
 14.5.2015
--2h
+-Projektin alustaminen, git-säädöt ja aihemäärittely 3h
