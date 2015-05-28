@@ -5,6 +5,9 @@ package muistipeli.testit;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
 import muistipeli.muistipeli.Kortti;
 import muistipeli.muistipeli.Poyta;
 import org.junit.After;
@@ -99,6 +102,31 @@ public class PoytaTest {
                 sarake++;
             }
             rivi++;
+        }
+    }
+    
+    @Test
+    public void kortitListanaSisaltaaLuvutNollastaSeiskaan() {
+        Poyta poyta = new Poyta();
+        int luku = 0;
+        while (luku < 8){
+            assertTrue(poyta.kortitListana().contains(luku));
+            luku++;
+        }
+    }
+    
+    @Test
+    public void kortitListanaSisaltaaKaksiJokaista() {
+        Poyta poyta = new Poyta();
+        int luku = 0;
+        ArrayList<Integer> lista = poyta.kortitListana();
+        Collections.sort(lista);
+        while (luku < 8) {
+            assertEquals(lista.get(0).intValue(), luku);
+            lista.remove(0);
+            assertEquals(lista.get(0).intValue(), luku);
+            lista.remove(0);
+            luku++;
         }
     }
 }

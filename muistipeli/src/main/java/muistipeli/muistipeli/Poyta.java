@@ -10,31 +10,31 @@ public class Poyta {
         jaaKortit();
     }
     
-    private void jaaKortit(){
+    public void jaaKortit(){
+        ArrayList<Integer> kortit = kortitListana();
         int rivi = 0;
         while(rivi < 4){
             int sarake = 0;
             while(sarake < 4){
-                jaaYksi(sarake, rivi);
+                ruudukko[sarake][rivi] = new Kortti(kortit.get(0));
+                kortit.remove(0);
                 sarake++;
             }
             rivi++;
         }
     }
     
-    private void jaaYksi(int sarake, int rivi){
-        while(true){
-            Random random = new Random();
-            int poni = random.nextInt(8);
-            if(onkoJoKahdesti(poni) == false){
-                ruudukko[sarake][rivi] = new Kortti(poni);
-                break;
-            }
+    public ArrayList<Integer> kortitListana(){
+        ArrayList<Integer> kortit = new ArrayList<>();
+        int parienMaara = 8;
+        int pari = 0;
+        while(pari < parienMaara){
+            kortit.add(pari);
+            kortit.add(pari);
+            pari++;
         }
-    }
-    
-    private boolean onkoJoKahdesti(int numero){
-        return false;
+        Collections.shuffle(kortit);
+        return kortit;
     }
     
     public Kortti[][] getRuudukko(){

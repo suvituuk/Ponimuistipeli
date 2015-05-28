@@ -36,7 +36,7 @@
     <version>1.1.4</version>
     <configuration>
         <targetClasses>
-            <param>muitipeli.muistipeli.*</param>
+            <param>muistipeli.muistipeli.*</param>
         </targetClasses>
         <targetTests>
             <param>muistipeli.testit.*</param>

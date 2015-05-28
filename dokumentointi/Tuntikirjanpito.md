@@ -10,3 +10,9 @@
 -Ohjelmointi 1h
 21.5.2015
 -Testej‰, aihem‰‰rittelyn laajentaminen, luokkakaavio 4h
+24.5.2015
+-Ohjelmointi 4h
+27.5.2015
+-Ohjelmointi ja testit 7h
+28.5.2015
+-Testit ja luokkakaavio 3h
