@@ -128,5 +128,6 @@ public class PoytaTest {
             lista.remove(0);
             luku++;
         }
+        
     }
 }

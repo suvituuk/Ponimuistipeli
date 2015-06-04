@@ -1,7 +1,10 @@
 
 package muistipeli.muistipeli;
 import java.util.*;
-
+/**
+ * 
+ * Pöydällä on pelin kortit 4x4-matriisissa.
+ */
 public class Poyta {
     private Kortti[][] ruudukko;
     
@@ -48,11 +51,7 @@ public class Poyta {
         while(rivi < 4){
             int sarake = 0;
             while(sarake < 4){
-                if(ruudukko[sarake][rivi].onkoKaannetty()){
-                    kortit += ruudukko[sarake][rivi].getPoni();
-                } else {
-                    kortit += "x";
-                }
+                kortit += ruudukko[sarake][rivi];
                 sarake++;
             }
             rivi++;

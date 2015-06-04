@@ -23,7 +23,12 @@ public class Tulos {
 //        }
 //        return tiedostonSisalto;
 //    }
-    
+    /**
+     * 
+     * Pelillä on tulos (kuinka monella klikkauksella löysi kaikki parit) jonka voi halutessaan tallentaa. 
+     * Tulokseen liittyy myös tuloksen tekijä eli pelaaja.
+     * @throws IOException 
+     */
     public void lisaaTulos() throws IOException{
         kirjaaja.write(this.tulos + ":" + this.pelaaja.getNimi() + "\n");
         kirjaaja.close();

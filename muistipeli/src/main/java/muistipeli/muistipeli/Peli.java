@@ -2,20 +2,35 @@ package muistipeli.muistipeli;
 
 import java.io.IOException;
 import java.util.*;
-
+/**
+ * 
+ * Tämä on tärkein luokka, joka pyörittää peliä.
+ */
 public class Peli {
     private Poyta poyta;
     private Scanner lukija;
     private int klikkauksia;
     private Pelaaja pelaaja1;
     private Pelaaja pelaaja2;
+    private int korttejaKaannettyKierroksella;
+    private Kortti ekaKaannetty;
+    private Kortti tokaKaannetty;
     
     public Peli(Scanner lukija){
         poyta = new Poyta();
         this.lukija = lukija;
         this.klikkauksia = 0;
+        this.korttejaKaannettyKierroksella = 0;
+        Kortti oletuskortti = new Kortti(200);
+        this.ekaKaannetty = new Kortti(297);
+        this.tokaKaannetty = oletuskortti;
     }
     
+    /**
+     * 
+     * Käynnistää pelin.
+     * @throws IOException 
+     */
     public void kaynnista() throws IOException{
         System.out.println("Tervetuloa pelaamaan EEPPISEN HIENOA MLP-muistipeliä!");
         int peli = valitsePeli();
@@ -25,7 +40,11 @@ public class Peli {
             kaksinpeli();
         }
     }
-    
+    /**
+     * 
+     * yksinpeli pyörittää peliä pelattaessa yksin.
+     * @throws IOException 
+     */
     public void yksinpeli() throws IOException{
         System.out.println("Anna nimimerkki:");
         String nimi = lukija.nextLine();
@@ -40,6 +59,10 @@ public class Peli {
         tuloksenTallennus();
     }
     
+    /**
+     * tallentaa tuloksen
+     * @throws IOException 
+     */
     public void tuloksenTallennus() throws IOException{
         try {
             System.out.println("Tallenetaanko tulos? (1=kyllä, muu=ei)");
@@ -50,6 +73,10 @@ public class Peli {
         }
     }
     
+    /**
+     * 
+     * kaksinpeli pyörittää peliä pelattaessa kaveria vastaan
+     */
     public void kaksinpeli(){
         System.out.println("Ensimmäinen pelaaja, anna nimesi:");
         pelaaja1 = new Pelaaja(lukija.nextLine());
@@ -67,6 +94,10 @@ public class Peli {
         voittaja();
     }
     
+    /**
+     * 
+     * voittaja kertoo kaksinpelin voittajan ja sen, kuinka monta paria kumpikin pelaaja löysi
+     */
     public void voittaja(){
         System.out.println(pelaaja1.getNimi() + " löysi " + pelaaja1.getParejaLoydetty() + " paria.\n" + 
                 pelaaja2.getNimi() + " löysi " + pelaaja2.getParejaLoydetty() + " paria.");
@@ -94,6 +125,12 @@ public class Peli {
         return true;
     }
     
+    /**
+     * 
+     * kaksipelissa seuraavaPelaaja palauttaa seuraavaksi vuorossa olevan pelaajan
+     * @param pelaaja nyt vuorossa oleva pelaaja
+     * @return seuraava pelaaja
+     */
     public Pelaaja seuraavaPelaaja(Pelaaja pelaaja) {
         if (pelaaja == pelaaja1) {
             pelaaja = pelaaja2;
@@ -103,6 +140,11 @@ public class Peli {
         return pelaaja;
     }
     
+    /**
+     * 
+     * voi valita haluaako pelata yksin vai kaveria vastaan
+     * @return valittu peli eli yksin- tai kaksinpeli
+     */
     public int valitsePeli(){
         int peli;
         while (true){
@@ -121,6 +163,11 @@ public class Peli {
         }
     }
     
+    /**
+     * 
+     * kierros eli valitaan ja käännetään kaksi korttia ja tarkistetaan löytyikö pari, jos ei niin käännetään kortit takaisin
+     * @param pelaaja vuorossa oleva pelaaja
+     */
     public void kierros(Pelaaja pelaaja){
         Kortti ekaKortti = kortinValinta();
         kortinKaanto(ekaKortti);
@@ -135,6 +182,11 @@ public class Peli {
         }
     }
     
+    /**
+     * 
+     * pelaaja valitsee kortin jonka haluaa kääntää
+     * @return valittu kortti eli kortti joka halutaan kääntää
+     */
     public Kortti kortinValinta(){
         while(true){
             int sarake = valitse("sarake");
@@ -148,6 +200,12 @@ public class Peli {
         }
     }
     
+    /**
+     * 
+     * rivin tai sarakkeen valinta, josta kortti halutaan kääntää
+     * @param riviVaiSarake valitaanko rivi vai sarake
+     * @return valitun rivin tai sarakkeen indeksi 0-3
+     */
     public int valitse(String riviVaiSarake){
         while (true){
             try {
@@ -164,6 +222,19 @@ public class Peli {
         }
     }
     
+    public void setKorttejaKaannettyKierroksella(int kaannetty) {
+        this.korttejaKaannettyKierroksella = kaannetty;
+    }
+    
+    public int getKorttejaKaannettyKierroksella() {
+        return this.korttejaKaannettyKierroksella;
+    }
+    
+    /**
+     * 
+     * kääntää kortin
+     * @param kortti käännettävä kortti
+     */
     public void kortinKaanto(Kortti kortti){
         kortti.kaanna();
         this.klikkauksia += 1;
@@ -190,8 +261,20 @@ public class Peli {
         return this.pelaaja2;
     }
     
-    public void tulosta(){
-        System.out.println("hello");
+    public void setEkaKaannetty(Kortti kortti) {
+        this.ekaKaannetty = kortti;
+    }
+    
+    public Kortti getEkaKaannetty() {
+        return this.ekaKaannetty;
+    }
+    
+    public void setTokaKaannetty(Kortti kortti) {
+        this.tokaKaannetty = kortti;
+    }
+    
+    public Kortti getTokaKaannetty() {
+        return this.tokaKaannetty;
     }
     
 }

@@ -1,5 +1,8 @@
 package muistipeli.muistipeli;
-
+/**
+ * 
+ * Pelaaja pelaa peliä. Pelaajalla on nimi.
+ */
 public class Pelaaja {
     private String nimi;
     private int parejaLoydetty;

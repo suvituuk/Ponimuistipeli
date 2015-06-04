@@ -16,3 +16,11 @@
 -Ohjelmointi ja testit 7h
 28.5.2015
 -Testit ja luokkakaavio 3h
+31.5.2015
+-Käytöliittymän toteutuksen aloitus 2h
+1.6.2015
+-Käyttöliittymän koodaus 2h
+3.6.2015
+-Käyttöliittymän koodaus 3h
+4.6.2015
+-Lisää testejä, sekvenssikaaviot, javadoc 5h

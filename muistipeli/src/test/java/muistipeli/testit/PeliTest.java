@@ -120,6 +120,14 @@ public class PeliTest {
     }
     
     @Test
+    public void pelaajaVaihtuuII(){
+        Peli peli = new Peli(new Scanner(System.in));
+        peli.setPelaaja1(new Pelaaja("eka"));
+        peli.setPelaaja2(new Pelaaja("toka"));
+        assertEquals(peli.seuraavaPelaaja(peli.getPelaaja2()), peli.getPelaaja1());
+    }
+    
+    @Test
     public void setPelaajaToimii() {
         Peli peli = new Peli(new Scanner(System.in));
         Pelaaja pelaaja = new Pelaaja("Toni");
@@ -219,5 +227,64 @@ public class PeliTest {
         String expected =  "Suvi löysi 2 paria.\nToni löysi 0 paria.\r\nVoittaja on: Suvi!\r\n";
         Assert.assertEquals(outContent.toString(), expected);
     }
+    
+    @Test
+    public void valintaTulostuuOikeinVirheellisellaSyotteella(){
+        String syote = "a\n1";
+        Peli peli = new Peli(new Scanner(syote));
+        peli.valitse("rivi");
+        String expected =  "Valitse rivi:\r\nValitse 0-3!\r\nValitse rivi:\r\n";
+        Assert.assertEquals(outContent.toString(), expected);
+    }
+    
+    @Test
+    public void valintaTulostuuOikeinVaarallaLuvulla(){
+        String syote = "5\n1";
+        Peli peli = new Peli(new Scanner(syote));
+        peli.valitse("rivi");
+        String expected =  "Valitse rivi:\r\nValitse 0-3!\r\nValitse rivi:\r\n";
+        Assert.assertEquals(outContent.toString(), expected);
+    }
+    
+    @Test
+    public void pelinValintaTulostuuOikeinVirheellisellaSyotteella(){
+        String syote = "a\n1";
+        Peli peli = new Peli(new Scanner(syote));
+        peli.valitsePeli();
+        String expected =  "Haluatko pelata yksin(1) vai paria vastaan(2)?\r\nValitse 1 tai 2!\r\n"
+                + "Haluatko pelata yksin(1) vai paria vastaan(2)?\r\n";
+        Assert.assertEquals(outContent.toString(), expected);
+    }
+    
+    @Test
+    public void pelinValintaTulostuuOikeinVaarallaLuvulla(){
+        String syote = "3\n1";
+        Peli peli = new Peli(new Scanner(syote));
+        peli.valitsePeli();
+        String expected =  "Haluatko pelata yksin(1) vai paria vastaan(2)?\r\nValitse 1 tai 2!\r\n"
+                + "Haluatko pelata yksin(1) vai paria vastaan(2)?\r\n";
+        Assert.assertEquals(outContent.toString(), expected);
+    }
+    
+    @Test
+    public void kortinValintaTulostuuOikeinKaannetyllaKortilla(){
+        String syote = "0\n0\n1\n1\n";
+        Peli peli = new Peli(new Scanner(syote));
+        peli.getPoyta().getRuudukko()[0][0].kaanna();
+        peli.kortinValinta();
+        String expected =  "Valitse sarake:\r\nValitse rivi:\r\n"
+                + "Valitse kortti, joka ei ole käännettynä!\r\nValitse sarake:\r\nValitse rivi:\r\n";
+        Assert.assertEquals(outContent.toString(), expected);
+    }
+    
+    @Test
+    public void tuloksenTallennusTulostuuOikein() throws IOException{
+        String syote = "\n";
+        Peli peli = new Peli(new Scanner(syote));
+        peli.tuloksenTallennus();
+        String expected =  "Tallenetaanko tulos? (1=kyllä, muu=ei)\r\n";
+        Assert.assertEquals(outContent.toString(), expected);
+    }
+    
     
 }
