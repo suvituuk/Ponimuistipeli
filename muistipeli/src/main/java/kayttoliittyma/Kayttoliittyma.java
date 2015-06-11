@@ -1,17 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package kayttoliittyma;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Image;
-import java.util.Scanner;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,28 +15,40 @@ import javax.swing.JLabel;
 import javax.swing.WindowConstants;
 import muistipeli.muistipeli.Peli;
 
+/**
+ * 
+ * Pääkäyttöliittymä, jossa peli pelataan. 
+ * Sisältää kortit ruudukkona ja painikkeet tulosten katseluun 
+ * (yksinpelissä myös tallennukseen) ja uuden pelin aloittamiseen.
+ */
 public class Kayttoliittyma implements Runnable {
 
     private JFrame frame;
-    private Peli peli;
+    private final Peli peli;
     private Container ruudukko;
     private JButton ekaKaannetty;
     private JButton tokaKaannetty;
-    private boolean onkoPari;
+    private JButton tuloksenLisays;
+    private JLabel ekaTeksti;
+    private JLabel tokaTeksti;
 
-    public Kayttoliittyma() {
-        this.peli = new Peli(new Scanner(System.in));
+    public Kayttoliittyma(Peli peli) throws IOException {
+        this.peli = peli;
         this.ruudukko = new Container();
-        this.onkoPari = true;
         JButton oletuskortti = new JButton("1");
         this.ekaKaannetty = oletuskortti;
         this.tokaKaannetty = oletuskortti;
+        peli.setPelaajaVuorossa(peli.getPelaaja1());
     }
 
     @Override
     public void run() {
         frame = new JFrame("MLP-muistipeli");
-        frame.setPreferredSize(new Dimension(420, 470));
+        if (peli.getPoyta().getSivu() == 4) {
+            frame.setPreferredSize(new Dimension(420, 480));
+        } else {
+            frame.setPreferredSize(new Dimension(620, 680));
+        }
 
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,76 +58,200 @@ public class Kayttoliittyma implements Runnable {
         frame.setVisible(true);
     }
 
+    /**
+     * Luo ja lisää tarvittavat komponentit käyttöliittymään.
+     * @param container Container johon luodut komponentit asetetaan.
+     */
     private void luoKomponentit(Container container) {
+        alustaFrame(container);
+        lisaaYlapalkki(container);
+        lisaaRuudukko(container);
+        lisaaAlapalkki(container);
+    }
+    
+    /**
+     * Asettaa Container-olion layoutin ja taustan.
+     * @param container 
+     */
+    private void alustaFrame(Container container) {
+        container.setBackground(java.awt.Color.decode("#FFDBF9"));
         container.setLayout(new BorderLayout());
-        Container ylapalkki = new Container();
-        luoYlapalkki(ylapalkki);
-        container.add(ylapalkki, BorderLayout.NORTH);
+    }
+    
+    /**
+     * Luo ja lisää ruudukon Container-olioon.
+     * @param container Container, johon ruudukko lisätään.
+     */
+    private void lisaaRuudukko(Container container) {
         luoRuudukko(ruudukko);
         container.add(ruudukko);
     }
     
+    /**
+     * Luo ja lisää Container-olioon yläpalkin, jossa pelin kulkuun liittyvät tekstit näkyvät.
+     * @param container Container-olio, johon palkki lisätään.
+     */
+    private void lisaaYlapalkki(Container container) {
+        Container ylapalkki = new Container();
+        luoYlapalkki(ylapalkki);
+        container.add(ylapalkki, BorderLayout.NORTH);
+    }
+    
+    /**
+     * Luo ja lisää Container-olioon alapalkin, jossa on painikkeet tulosten katseluun, 
+     * uuden pelin aloittamiseen ja yksinpelissä tuloksen lisäämiseen.
+     * @param container Container-olio, johon palkki lisätään.
+     */
+    private void lisaaAlapalkki(Container container) {
+        Container alapalkki = new Container();
+        luoAlapalkki(alapalkki);
+        container.add(alapalkki, BorderLayout.SOUTH);
+    }
+
+    /**
+     * Alustaa alapalkin asettamalla sille layoutin ja lisää tarvittavat painikkeet.
+     * @param container alapalkki
+     */
+    private void luoAlapalkki(Container container) {
+        GridLayout layout = new GridLayout();
+        container.setLayout(layout);
+        luoTuloksenlisaysnappi(container);
+        luoTuloksetNappi(container);
+        luoUusiPeliNappi(container);
+    }
+    
+    /**
+     * Luo painikkeen tulosten katselulle.
+     * @param container Container-olio, johon painike lisätään.
+     */
+    private void luoTuloksetNappi(Container container) {
+        JButton naytaTulokset = new JButton("Tulokset");
+        teeHienoPinkkiNappula(naytaTulokset);
+        naytaTulokset.addActionListener(new TulostenKatselunKuuntelija());
+        container.add(naytaTulokset);
+    }
+
+    /**
+     * Luo painikkeen tuloksen lisäykselle yksinpelissä.
+     * @param container Container-olio, johon painike lisätään.
+     */
+    private void luoTuloksenlisaysnappi(Container container) {
+        if (this.peli.getPelaajia() == 1) {
+            tuloksenLisays = new JButton("Tallenna tulos");
+            try {
+                tuloksenLisays.addActionListener(new TuloksenLisaysKuuntelija(this));
+            } catch (IOException ex) {
+                Logger.getLogger(Kayttoliittyma.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            tuloksenLisays.setEnabled(false);
+            teeHienoPinkkiNappula(tuloksenLisays);
+            container.add(tuloksenLisays);
+        }
+    }
+
+    /**
+     * Luo painikkeen uuden pelin aloitukseen.
+     * @param container Container-olio, johon painike lisätään.
+     */
+    private void luoUusiPeliNappi(Container container) {
+        JButton uusiPeli = new JButton("Pelaa uudestaan!");
+        uusiPeli.addActionListener(new UudenPelinKuuntelija(this));
+        teeHienoPinkkiNappula(uusiPeli);
+        container.add(uusiPeli);
+    }
+
+    /**
+     * Alustaa yläpalkin asettamalla sen layoutin ja lisää siihen tarvittavat tekstikentät ja tekstit.
+     * @param container yläpalkki
+     */
     private void luoYlapalkki(Container container) {
         GridLayout layout = new GridLayout();
         container.setLayout(layout);
-        container.add(new JButton("Omat tulokset"));
-        container.add(new JButton("Parhaat tulokset"));
+        if (this.peli.getPelaajia() == 1) {
+            container.add(new JLabel("Klikkauksia:"));
+            tokaTeksti = new JLabel("0");
+            container.add(tokaTeksti);
+        } else if (peli.getPelaajia() == 2) {
+            ekaTeksti = new JLabel(peli.getPelaaja1().getNimi() + ": " + peli.getPelaaja1().getParejaLoydetty() + " paria, "
+                    + peli.getPelaaja2().getNimi() + ": " + peli.getPelaaja2().getParejaLoydetty() + " paria");
+            container.add(ekaTeksti);
+            tokaTeksti = new JLabel("Vuorossa: " + peli.getPelaaja1().getNimi());
+            container.add(tokaTeksti);
+        }
     }
 
+    /**
+     * Luo peliruudukon kortteineen ja asettaa sen layoutin.
+     * @param container ruudukko
+     */
     private void luoRuudukko(Container container) {
-        GridLayout layout = new GridLayout(4, 4);
+        GridLayout layout = new GridLayout(peli.getPoyta().getSivu(), peli.getPoyta().getSivu());
         container.setLayout(layout);
-        int i = 0;       
-        while (i < 16) {
-            ImageIcon icon = new ImageIcon("cardback.jpg");
+        int i = 0;
+        while (i < peli.getPoyta().getSivu() * peli.getPoyta().getSivu()) {
+            ImageIcon icon = new ImageIcon("kuvat/cardback.jpg");
             JButton nappi = new JButton(icon);
             nappi.addActionListener(new Kortinkuuntelija(this.peli, nappi, i, this));
             container.add(nappi);
             i++;
         }
-        
     }
-
-//    protected ImageIcon createImageIcon(String path,
-//            String description) {
-//        java.net.URL imgURL = getClass().getResource(path);
-//        if (imgURL != null) {
-//            return new ImageIcon(imgURL, description);
-//        } else {
-//            System.err.println("Couldn't find file: " + path);
-//            return null;
-//        }
-//    }
+    
+    /**
+     * Tekee painikkeesta vaaleanpunaisen ja kohotetun.
+     * @param nappula Painike, jota muokataan.
+     */
+    public void teeHienoPinkkiNappula(JButton nappula) {
+        nappula.setBorder(BorderFactory.createRaisedBevelBorder());
+        nappula.setBackground(java.awt.Color.decode("#FFAFF9"));
+    }
+    
+    /**
+     * Ovatko viimeksi käännetyt kortit pari.
+     * @return true/false
+     */
+    public boolean onkoPari() {
+        return this.peli.getEkaKaannetty().getPoni() == this.peli.getTokaKaannetty().getPoni();
+    }
 
     public JFrame getFrame() {
         return frame;
     }
-    
+
     public Container getRuudukko() {
         return this.ruudukko;
     }
-    
+
     public void setEkaKaannetty(JButton kortti) {
         this.ekaKaannetty = kortti;
     }
-    
+
     public JButton getEkaKaannetty() {
         return this.ekaKaannetty;
     }
-    
+
     public void setTokaKaannetty(JButton kortti) {
         this.tokaKaannetty = kortti;
     }
-    
+
     public JButton getTokaKaannetty() {
         return this.tokaKaannetty;
     }
-    
-    public boolean getOnkoPari() {
-        return this.peli.getEkaKaannetty().getPoni() == this.peli.getTokaKaannetty().getPoni();
+
+    public JLabel getEkaTeksti() {
+        return this.ekaTeksti;
     }
-    
-    public void setOnkoPari(boolean pari) {
-        this.onkoPari = pari;
+
+    public JLabel getTokaTeksti() {
+        return this.tokaTeksti;
     }
+
+    public Peli getPeli() {
+        return this.peli;
+    }
+
+    public JButton getTuloksenLisays() {
+        return this.tuloksenLisays;
+    }
+
 }

@@ -47,7 +47,7 @@ public class PoytaTest {
     //
     @Test
     public void toStringTomiiI(){
-        Poyta poyta = new Poyta();
+        Poyta poyta = new Poyta(4);
         int rivi = 0;
         while(rivi < 4){
             int sarake = 0;
@@ -62,7 +62,7 @@ public class PoytaTest {
     
     @Test
     public void toStringTomiiII(){
-        Poyta poyta = new Poyta();
+        Poyta poyta = new Poyta(4);
         int rivi = 0;
         while(rivi < 4){
             int sarake = 0;
@@ -79,7 +79,7 @@ public class PoytaTest {
     
     @Test
     public void korttienArvoMaxSeiska() {
-        Poyta poyta = new Poyta();
+        Poyta poyta = new Poyta(4);
         int rivi = 0;
         while(rivi < 4){
             int sarake = 0;
@@ -93,7 +93,7 @@ public class PoytaTest {
     
     @Test
     public void korttienArvoVahNolla() {
-        Poyta poyta = new Poyta();
+        Poyta poyta = new Poyta(4);
         int rivi = 0;
         while(rivi < 4){
             int sarake = 0;
@@ -107,7 +107,7 @@ public class PoytaTest {
     
     @Test
     public void kortitListanaSisaltaaLuvutNollastaSeiskaan() {
-        Poyta poyta = new Poyta();
+        Poyta poyta = new Poyta(4);
         int luku = 0;
         while (luku < 8){
             assertTrue(poyta.kortitListana().contains(luku));
@@ -117,7 +117,7 @@ public class PoytaTest {
     
     @Test
     public void kortitListanaSisaltaaKaksiJokaista() {
-        Poyta poyta = new Poyta();
+        Poyta poyta = new Poyta(4);
         int luku = 0;
         ArrayList<Integer> lista = poyta.kortitListana();
         Collections.sort(lista);
@@ -129,5 +129,17 @@ public class PoytaTest {
             luku++;
         }
         
+    }
+    
+    @Test
+    public void KorttejaOnSivuKertaaSivu() {
+        Poyta poyta = new Poyta(4);
+        assertEquals(poyta.getSivu()*poyta.getSivu(), poyta.getKortteja());
+    }
+    
+    @Test
+    public void sivuOnParametri() {
+        Poyta poyta = new Poyta(6);
+        assertEquals(6, poyta.getSivu());
     }
 }

@@ -24,3 +24,13 @@
 -Käyttöliittymän koodaus 3h
 4.6.2015
 -Lisää testejä, sekvenssikaaviot, javadoc 5h
+6.6.2015
+-Koodaus (tulokset, käyttöliittymät)10h
+7.6.2015
+-Lisää kuvia, koodausta, käytännön testaus (=pelin pelaus) 8h
+8.6.2015
+-Testejä 6h
+10.6.2015
+-Javadoc, bugien korjailua 2h
+11.6.2015
+-Javadoc, uusi sekvenssikaavio 1h

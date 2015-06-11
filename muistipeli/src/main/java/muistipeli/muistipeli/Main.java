@@ -1,16 +1,14 @@
 package muistipeli.muistipeli;
-import kayttoliittyma.Kayttoliittyma;
+
 import java.io.IOException;
-import java.util.*;
 import javax.swing.SwingUtilities;
+import kayttoliittyma.Pelinkaynnistin;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-//        Peli peli = new Peli(new Scanner(System.in));
-//        peli.kaynnista();
-        
-        Kayttoliittyma kayttoliittyma = new Kayttoliittyma();
-        SwingUtilities.invokeLater(kayttoliittyma);
 
+    public static void main(String[] args) throws IOException {
+        Pelinkaynnistin kaynnistin = new Pelinkaynnistin();
+        SwingUtilities.invokeLater(kaynnistin);
+        
     }
 }

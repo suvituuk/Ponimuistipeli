@@ -1,41 +1,69 @@
 package muistipeli.muistipeli;
 
 import java.io.*;
-import java.util.Scanner;
+import java.util.Objects;
 
-public class Tulos {
+/**
+ *
+ * Pelillä on tulos (pisteet lasketaan klikkausten ja ruudukon koon perusteella) jonka voi
+ * halutessaan tallentaa. Tulokseen liittyy myös tuloksen tekijä eli pelaaja ja aika.
+ *
+ * @throws IOException
+ */
+public class Tulos implements Comparable {
+
     private Pelaaja pelaaja;
     private int tulos;
-    private FileWriter kirjaaja;
-    
-    public Tulos(Pelaaja pelaaja, int tulos) throws IOException{
+    private String aika;
+
+    public Tulos(Pelaaja pelaaja, int tulos, String aika) throws IOException {
         this.pelaaja = pelaaja;
         this.tulos = tulos;
-        this.kirjaaja = new FileWriter("src/tulokset.txt", true);
+        this.aika = aika;
+    }
+
+    public Pelaaja getPelaaja() {
+        return this.pelaaja;
+    }
+
+    public int getTulos() {
+        return this.tulos;
     }
     
-//    public String lataaTulokset() throws FileNotFoundException{
-//        File tiedosto = new File("src/tulokset.txt");
-//        Scanner lukija = new Scanner(tiedosto);
-//        String tiedostonSisalto = "";
-//        while (lukija.hasNextLine()){
-//            tiedostonSisalto += lukija.nextLine() + "\n";
-//        }
-//        return tiedostonSisalto;
-//    }
-    /**
-     * 
-     * Pelillä on tulos (kuinka monella klikkauksella löysi kaikki parit) jonka voi halutessaan tallentaa. 
-     * Tulokseen liittyy myös tuloksen tekijä eli pelaaja.
-     * @throws IOException 
-     */
-    public void lisaaTulos() throws IOException{
-        kirjaaja.write(this.tulos + ":" + this.pelaaja.getNimi() + "\n");
-        kirjaaja.close();
+    public String getAika() {
+        return this.aika;
     }
-    
+
     @Override
-    public String toString(){
-        return this.tulos + " - " + pelaaja.getNimi();
+    public String toString() {
+        return this.tulos + " - " + pelaaja.getNimi() + " - " + this.aika;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return o.hashCode() - this.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return this.tulos;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Tulos other = (Tulos) obj;
+        if (!Objects.equals(this.pelaaja, other.pelaaja)) {
+            return false;
+        }
+        if (this.tulos != other.tulos) {
+            return false;
+        }
+        return true;
     }
 }
