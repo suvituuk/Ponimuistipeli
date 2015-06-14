@@ -1,11 +1,10 @@
 package kayttoliittyma;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.IOException;
 import javax.swing.SwingUtilities;
-import muistipeli.muistipeli.Pelaaja;
+import muistipeli.logiikka.Pelaaja;
 
 /**
  *
@@ -15,12 +14,17 @@ public class Kaynnistinkuuntelija implements ActionListener {
 
     private final Pelinkaynnistin kaynnistin;
 
+    /**
+     * 
+     * @param kaynnistin Pelinkaynnistin, josta peliä ollaan käynnistämässä.
+     */
     public Kaynnistinkuuntelija(Pelinkaynnistin kaynnistin) {
         this.kaynnistin = kaynnistin;
     }
 
     /**
-     * Avaa uuden graafisen käyttöliittymän, jossa varsinainen peli pelataan ja siten aloittaa pelin.
+     * Avaa uuden graafisen käyttöliittymän, jossa varsinainen peli pelataan ja
+     * siten aloittaa pelin.
      */
     public void avaaPeli() {
         try {
@@ -42,8 +46,8 @@ public class Kaynnistinkuuntelija implements ActionListener {
     }
 
     /**
-     * Asettaa kaksinpelin pelaajat. Jos nimikenttä, josta pelaajan nimeä haetaan on tyhjä, 
-     * asetetaan nimeksi Pelaaja 1/Pelaaja 2.
+     * Asettaa kaksinpelin pelaajat. Jos nimikenttä, josta pelaajan nimeä
+     * haetaan on tyhjä, asetetaan nimeksi Pelaaja 1/Pelaaja 2.
      */
     public void asetaKaksinpelinPelaajat() {
         if (kaynnistin.getEkaNimikentta().getText().equals("")) {
@@ -57,16 +61,33 @@ public class Kaynnistinkuuntelija implements ActionListener {
     }
 
     /**
-     * Tarkistaa onko yksinpeliä avatessa annettu nimimerkki kelvollinen, eli ei sisällä väliviivaa (-).
+     * Tarkistaa onko yksinpeliä avatessa annettu nimimerkki kelvollinen, eli ei
+     * sisällä väliviivaa (-) eikä ole liian pitkä.
+     *
      * @return true/false
      */
     public boolean kelpaakoNimi() {
         if (kaynnistin.getPeli().getPelaajia() == 2) {
             return true;
-        } else if (!kaynnistin.getEkaNimikentta().getText().contains("-")) {
+        } else if (!kaynnistin.getEkaNimikentta().getText().contains("-") && kaynnistin.getEkaNimikentta().getText().length() <= 10) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Jos syötetty nimimerkki on virheellinen, värjää ongelmaan liittyvän ohjetekstin punaiseksi.
+     */
+    public void virhe() {
+        kaynnistin.getAnnaNimi().setForeground(Color.BLACK);
+        kaynnistin.getOhjeTekti().setForeground(Color.BLACK);
+        if (kaynnistin.getEkaNimikentta().getText().contains("-")) {
+            kaynnistin.getAnnaNimi().setForeground(Color.red);
+        }
+        if (kaynnistin.getEkaNimikentta().getText().length() > 10) {
+            kaynnistin.getOhjeTekti().setForeground(Color.red);
+        }
+        kaynnistin.getEkaNimikentta().setText("");
     }
 
     @Override
@@ -76,8 +97,7 @@ public class Kaynnistinkuuntelija implements ActionListener {
             avaaPeli();
             kaynnistin.getFrame().dispose();
         } else {
-            kaynnistin.getAnnaNimi().setForeground(Color.red);
-            kaynnistin.getEkaNimikentta().setText("");
+            virhe();
         }
     }
 

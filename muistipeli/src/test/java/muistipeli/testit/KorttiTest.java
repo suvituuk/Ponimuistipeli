@@ -6,7 +6,7 @@ package muistipeli.testit;
  * and open the template in the editor.
  */
 import javax.swing.ImageIcon;
-import muistipeli.muistipeli.Kortti;
+import muistipeli.logiikka.Kortti;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

@@ -1,17 +1,9 @@
 
 package kayttoliittyma;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
-import javax.swing.WindowConstants;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.Border;
 
 /**
  *
@@ -21,21 +13,38 @@ public class Tulokset implements Runnable {
     private JFrame frame;
     private JTextArea tulokset;
     private JTextArea nimi;
+    private final String pelaaja;
+    private JButton omat;
+    private JButton top;
 
     public Tulokset() {
+        this.pelaaja = "";
+    }
+    
+    public Tulokset(String pelaaja) {
+        this.pelaaja = pelaaja;
     }
 
     @Override
     public void run() {
         frame = new JFrame("Tulokset");
-        frame.setPreferredSize(new Dimension(300, 400));
+        frame.setPreferredSize(new Dimension(300, 300));
 
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         luoKomponentit(frame.getContentPane());
 
         frame.pack();
+        alkunakyma();
         frame.setVisible(true);
+    }
+    
+    private void alkunakyma() {
+        if (pelaaja.equals("")) {
+            top.doClick();
+        } else {
+            omat.doClick();
+        }
     }
 
     /**
@@ -56,32 +65,36 @@ public class Tulokset implements Runnable {
      * Luo JTextArean, jossa tulokset näkyvät.
      * @param container Container-olio, johon tekstikenttä asetetaan.
      */
-    public void luoTulokset(Container container) {
+    private void luoTulokset(Container container) {
         tulokset = new JTextArea();
-        tulokset.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.decode("#FFDBF9")));
+        Border ulompi = BorderFactory.createMatteBorder(5, 5, 5, 5, Color.decode("#CFB53B"));
+        Border sisempi = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.decode("#FEE7FA"));
+        tulokset.setBorder(BorderFactory.createCompoundBorder(ulompi, sisempi));
         tulokset.setBackground(Color.decode("#FEE7FA"));
-        container.add(tulokset);
+        JScrollPane sp = new JScrollPane(tulokset);
+        container.add(sp);
     }
     
     /**
      * Luo painikkeet omien ja parhaiden tulosten katseluun.
      * @param container Container-olio, johon komponentit asetetaan.
      */
-    public void luoValinnat(Container container) {
+    private void luoValinnat(Container container) {
         container.setLayout(new GridLayout(2, 2));
-        luoOmat(container);
-        luoTop(container);
         container.add(new JLabel("Nimimerkki:"));
         luoNimi(container);
+        luoOmat(container);
+        luoTop(container);
     }
     
     /**
      * Luo nimikentän.
      * @param container Container, johon nimikenttä asetetaan.
      */
-    public void luoNimi(Container container) {
+    private void luoNimi(Container container) {
         nimi = new JTextArea();
         nimi.setBorder(BorderFactory.createLoweredBevelBorder());
+        nimi.setText(pelaaja);
         container.add(nimi);
     }
     
@@ -89,8 +102,8 @@ public class Tulokset implements Runnable {
      * Luo painikkeen parhaiden tulosten katseluun.
      * @param container Container, johon painike asetetaan.
      */
-    public void luoTop(Container container) {
-        JButton top = new JButton("Top 10");
+    private void luoTop(Container container) {
+        top = new JButton("Top 10");
         top.addActionListener(new TopTulostenKuuntelija(this));
         teeHienoPinkkiNappula(top);
         container.add(top);
@@ -100,8 +113,8 @@ public class Tulokset implements Runnable {
      * Luo painikkeen omien tulosten katseluun.
      * @param container Container, johon painike asetetaa.
      */
-    public void luoOmat(Container container) {
-        JButton omat = new JButton("Omat tulokset");
+    private void luoOmat(Container container) {
+        omat = new JButton("Omat tulokset");
         omat.addActionListener(new OmienTulostenKuuntelija(this));
         teeHienoPinkkiNappula(omat);
         container.add(omat);

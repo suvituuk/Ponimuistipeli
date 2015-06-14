@@ -1,5 +1,5 @@
 
-package muistipeli.muistipeli;
+package muistipeli.logiikka;
 import java.util.*;
 /**
  * 

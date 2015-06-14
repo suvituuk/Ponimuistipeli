@@ -1,4 +1,4 @@
-package muistipeli.muistipeli;
+package muistipeli.logiikka;
 /**
  * 
  * Pelaaja pelaa peliä. Pelaajalla on nimi.
@@ -12,6 +12,18 @@ public class Pelaaja {
         this.parejaLoydetty = 0;
     }
     
+    public String loydetytParit() {
+        if (parejaLoydetty == 1) {
+            return nimi + ": 1 pari";
+        } else {
+            return nimi + ": " + parejaLoydetty + " paria";
+        }
+    }
+    
+    public void lisaaPari() {
+        this.parejaLoydetty++;
+    }
+    
     public String getNimi(){
         return this.nimi;
     }
@@ -23,5 +35,7 @@ public class Pelaaja {
     public void setParejaLoydetty(int parit){
         this.parejaLoydetty = parit;
     }
+    
+    
     
 }

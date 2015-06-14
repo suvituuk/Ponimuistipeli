@@ -1,4 +1,4 @@
-package muistipeli.muistipeli;
+package muistipeli.logiikka;
 
 import java.io.*;
 import java.util.Objects;
@@ -12,9 +12,9 @@ import java.util.Objects;
  */
 public class Tulos implements Comparable {
 
-    private Pelaaja pelaaja;
-    private int tulos;
-    private String aika;
+    private final Pelaaja pelaaja;
+    private final int tulos;
+    private final String aika;
 
     public Tulos(Pelaaja pelaaja, int tulos, String aika) throws IOException {
         this.pelaaja = pelaaja;

@@ -1,13 +1,9 @@
 package kayttoliittyma;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.concurrent.TimeUnit;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import muistipeli.muistipeli.Kortti;
-import muistipeli.muistipeli.Pelaaja;
-import muistipeli.muistipeli.Peli;
+import muistipeli.logiikka.Kortti;
+import muistipeli.logiikka.Peli;
+import java.awt.event.*;
+import javax.swing.*;
 
 /**
  *
@@ -15,17 +11,15 @@ import muistipeli.muistipeli.Peli;
  */
 public class Kortinkuuntelija implements ActionListener {
 
-    private JButton nappi;
-    private Peli peli;
-    private int numero;
-    private Kortti kortti;
-    private Kayttoliittyma kl;
+    private final JButton nappi;
+    private final Peli peli;
+    private final Kortti kortti;
+    private final Kayttoliittyma kl;
 
-    public Kortinkuuntelija(Peli peli, JButton nappi, int kortti, Kayttoliittyma kl) {
+    public Kortinkuuntelija(Peli peli, JButton nappi, int kortinNumero, Kayttoliittyma kl) {
         this.nappi = nappi;
         this.peli = peli;
-        this.numero = kortti;
-        this.kortti = this.peli.getPoyta().getRuudukko()[numero % peli.getPoyta().getSivu()][numero / peli.getPoyta().getSivu()];
+        this.kortti = this.peli.getPoyta().getRuudukko()[kortinNumero % peli.getPoyta().getSivu()][kortinNumero / peli.getPoyta().getSivu()];
         this.kl = kl;
     }
 
@@ -49,7 +43,7 @@ public class Kortinkuuntelija implements ActionListener {
      * Jos edelliset kortit eivät olleet pari, kääntää ne takaisin.
      */
     public void kaannaEdellisetTakaisin() {
-        if (!kl.onkoPari()) {
+        if (!kl.getPeli().onkoPari()) {
             peli.setKorttejaKaannettyKierroksella(2);
             kl.getEkaKaannetty().doClick();
             peli.setKorttejaKaannettyKierroksella(2);
@@ -92,9 +86,8 @@ public class Kortinkuuntelija implements ActionListener {
      * Asettaa tarvittaessa pelin loputtua tuloksen lisäys -painikkeen käyttöön.
      */
     public void pelinLopetus() {
-        if (peli.getPelaajia() == 1 && !peli.getPelaaja1().getNimi().equals("")) {
-            kl.getTuloksenLisays().setEnabled(true);
-        }
+        Lopetus lopetus = new Lopetus(kl);
+        SwingUtilities.invokeLater(lopetus);
     }
 
     /**
@@ -103,29 +96,17 @@ public class Kortinkuuntelija implements ActionListener {
     public void tapahtumaTokalla() {
         if (!this.kortti.onkoKaannetty()) {
             tokanKaanto();
-            if (kl.onkoPari()) {
-                Pelaaja pelaaja = peli.getPelaajaVuorossa();
-                pelaaja.setParejaLoydetty(pelaaja.getParejaLoydetty() + 1);
+            if (kl.getPeli().onkoPari()) {
+                peli.getPelaajaVuorossa().lisaaPari();
             }
             if (peli.onkoKaikkiLoydetty()) {
                 pelinLopetus();
             } else if (peli.getPelaajia() == 2) {
                 peli.seuraavaPelaaja();
             }
-        }
-        peli.setKorttejaKaannettyKierroksella(0);
-    }
-
-    /**
-     * Kuinka monta paria pelaaja on löytänyt.
-     * @param pelaaja Pelaaja, jonka nimi ja parit palautetaan.
-     * @return Pelaajan nimi ja löydetyt parit String-muodossa.
-     */
-    public String loydetytParit(Pelaaja pelaaja) {
-        if (pelaaja.getParejaLoydetty() == 1) {
-            return pelaaja.getNimi() + ": 1 pari";
+            peli.setKorttejaKaannettyKierroksella(0);
         } else {
-            return pelaaja.getNimi() + ": " + pelaaja.getParejaLoydetty() + " paria";
+            peli.setKorttejaKaannettyKierroksella(1);
         }
     }
 
@@ -136,7 +117,7 @@ public class Kortinkuuntelija implements ActionListener {
         if (peli.getPelaajia() == 1) {
             kl.getTokaTeksti().setText("" + peli.getKlikkauksia());
         } else if (peli.getPelaajia() == 2) {
-            kl.getEkaTeksti().setText(loydetytParit(peli.getPelaaja1()) + ", " + loydetytParit(peli.getPelaaja2()));
+            kl.getEkaTeksti().setText(peli.getPelaaja1().loydetytParit() + ", " + peli.getPelaaja2().loydetytParit());
             if (peli.onkoKaikkiLoydetty()) {
                 kl.getTokaTeksti().setText(peli.voittaja());
             } else {

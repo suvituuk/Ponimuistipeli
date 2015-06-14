@@ -1,16 +1,11 @@
-package muistipeli.muistipeli;
+package muistipeli.logiikka;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 /**
  *
- * Käsittelee tuloksia eli käytännössä tallentaa ja hakee niitä.
+ * KÃ¤sittelee tuloksia eli kÃ¤ytÃ¤nnÃ¶ssÃ¤ tallentaa ja hakee niitÃ¤.
  */
 public class Tulostenkasittelija {
 
@@ -40,6 +35,7 @@ public class Tulostenkasittelija {
     public String omatTulokset(Pelaaja pelaaja) throws FileNotFoundException, IOException {
         String tulokset = "";
         ArrayList<Tulos> tuloksetListana = tuloksetListana();
+        Collections.reverse(tuloksetListana);
         for (Tulos tulos: tuloksetListana) {
             if(tulos.getPelaaja().getNimi().equals(pelaaja.getNimi())) {
                 tulokset += tulos.toString() + "\n";

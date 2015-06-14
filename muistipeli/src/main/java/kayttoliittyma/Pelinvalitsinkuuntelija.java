@@ -37,6 +37,7 @@ public class Pelinvalitsinkuuntelija implements ActionListener {
         kayttis.getEkaNimikentta().setEnabled(true);
         if (this.pelaajia == 1) {
             kayttis.getAnnaNimi().setText("Älä käytä väliviivaa (-)!");
+            kayttis.getOhjeTekti().setText("Nimi max 10 merkkiä.");
             kayttis.getEkaPelaaja().setText("Nimimerkki:");
         } else if (this.pelaajia == 2) {
             kayttis.getAnnaNimi().setText("Syöttäkää nimenne");

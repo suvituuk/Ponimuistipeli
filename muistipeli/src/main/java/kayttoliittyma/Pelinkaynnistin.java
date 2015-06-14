@@ -1,18 +1,10 @@
 package kayttoliittyma;
 
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.io.IOException;
 import java.util.Scanner;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
-import javax.swing.WindowConstants;
-import muistipeli.muistipeli.Peli;
+import javax.swing.*;
+import muistipeli.logiikka.Peli;
 
 /**
  *
@@ -25,6 +17,7 @@ public class Pelinkaynnistin implements Runnable {
     private JLabel ekaPelaaja;
     private JLabel tokaPelaaja;
     private JLabel annaNimi;
+    private JLabel ohjeTeksti;
     private JTextArea ekaNimikentta;
     private JTextArea tokaNimikentta;
     private JButton valmis;
@@ -34,7 +27,7 @@ public class Pelinkaynnistin implements Runnable {
     private JButton pieni;
     
     public Pelinkaynnistin() throws IOException {
-        this.peli = new Peli(new Scanner(System.in));
+        this.peli = new Peli();
     }
 
     @Override
@@ -70,7 +63,8 @@ public class Pelinkaynnistin implements Runnable {
     public void luoNimienSyotto(Container container) {
         annaNimi = new JLabel("");
         container.add(annaNimi);
-        container.add(new JLabel(""));
+        ohjeTeksti = new JLabel("");
+        container.add(ohjeTeksti);
         luoNimikentat(container);
     }
     
@@ -212,5 +206,9 @@ public class Pelinkaynnistin implements Runnable {
     
     public JButton getIso() {
         return this.iso;
+    }
+    
+    public JLabel getOhjeTekti() {
+        return this.ohjeTeksti;
     }
 }

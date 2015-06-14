@@ -5,7 +5,7 @@ package muistipeli.testit;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import muistipeli.muistipeli.Pelaaja;
+import muistipeli.logiikka.Pelaaja;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -60,5 +60,25 @@ public class PelaajaTest {
         Pelaaja pelaaja = new Pelaaja("pelaajanNimi");
         pelaaja.setParejaLoydetty(3);
         assertEquals(pelaaja.getParejaLoydetty(), 3);
+    }
+    
+    @Test
+    public void loydetytParitPaulauttaaOikeanStringinNollalla() {
+        Pelaaja suvi = new Pelaaja("suvi");
+        assertEquals("suvi: 0 paria", suvi.loydetytParit());
+    }
+    
+    @Test
+    public void loydetytParitPalauttaaOikeanStringinYkkosella() {
+        Pelaaja suvi = new Pelaaja("suvi");
+        suvi.lisaaPari();
+        assertEquals("suvi: 1 pari", suvi.loydetytParit());
+    }
+    
+    @Test
+    public void loydetytParitPalauttaaOikeanStringinIsommalla() {
+        Pelaaja suvi = new Pelaaja("suvi");
+        suvi.setParejaLoydetty(42);
+        assertEquals("suvi: 42 paria", suvi.loydetytParit());
     }
 }

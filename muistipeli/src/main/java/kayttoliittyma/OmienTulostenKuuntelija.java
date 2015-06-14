@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import muistipeli.muistipeli.Pelaaja;
-import muistipeli.muistipeli.Tulostenkasittelija;
+import muistipeli.logiikka.Pelaaja;
+import muistipeli.logiikka.Tulostenkasittelija;
 
 /**
  *

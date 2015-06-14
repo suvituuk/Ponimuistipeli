@@ -6,8 +6,8 @@ package muistipeli.testit;
  * and open the template in the editor.
  */
 import java.io.IOException;
-import muistipeli.muistipeli.Pelaaja;
-import muistipeli.muistipeli.Tulos;
+import muistipeli.logiikka.Pelaaja;
+import muistipeli.logiikka.Tulos;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

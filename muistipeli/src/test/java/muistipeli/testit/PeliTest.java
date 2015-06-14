@@ -12,9 +12,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
-import muistipeli.muistipeli.Kortti;
-import muistipeli.muistipeli.Pelaaja;
-import muistipeli.muistipeli.Peli;
+import muistipeli.logiikka.Kortti;
+import muistipeli.logiikka.Pelaaja;
+import muistipeli.logiikka.Peli;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -62,31 +62,22 @@ public class PeliTest {
         System.setErr(null);
     }
     
-    
-    
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
-    
     @Test
-    public void onkoKaikkiLoydettyToimiiI() throws IOException{
-        Peli peli = new Peli(new Scanner(System.in));
+    public void kaikkiEiLoydettyAlussa() throws IOException{
+        Peli peli = new Peli();
         assertEquals(peli.onkoKaikkiLoydetty(), false);
     }
     
     @Test
     public void onkoKaikkiLoydettyToimiiII() throws IOException{
-        Peli peli = new Peli(new Scanner(System.in));
+        Peli peli = new Peli();
         peli.getPoyta().getRuudukko()[1][1].kaanna();
         assertEquals(peli.onkoKaikkiLoydetty(), false);
     }
     
     @Test
     public void onkoKaikkiLoydettyToimiiIII() throws IOException{
-        Peli peli = new Peli(new Scanner(System.in));
+        Peli peli = new Peli();
         int rivi = 0;
         while (rivi < 4) {
             int sarake = 0;
@@ -101,13 +92,13 @@ public class PeliTest {
     
     @Test
     public void korttiAluksiKaantamatta() throws IOException{
-        Peli peli = new Peli(new Scanner(System.in));
+        Peli peli = new Peli();
         assertEquals(peli.getPoyta().getRuudukko()[0][0].onkoKaannetty(), false);
     }
     
     @Test
     public void kortinKaantoKaantaaKortin() throws IOException{
-        Peli peli = new Peli(new Scanner(System.in));
+        Peli peli = new Peli();
         Kortti kortti = peli.getPoyta().getRuudukko()[0][0];
         peli.kortinKaanto(kortti);
         assertEquals(kortti.onkoKaannetty(), true);
@@ -115,7 +106,7 @@ public class PeliTest {
     
     @Test
     public void pelaajaVaihtuu() throws IOException{
-        Peli peli = new Peli(new Scanner(System.in));
+        Peli peli = new Peli();
         peli.setPelaaja1(new Pelaaja("eka"));
         peli.setPelaaja2(new Pelaaja("toka"));
         peli.setPelaajaVuorossa(peli.getPelaaja1());
@@ -125,7 +116,7 @@ public class PeliTest {
     
     @Test
     public void pelaajaVaihtuuII() throws IOException{
-        Peli peli = new Peli(new Scanner(System.in));
+        Peli peli = new Peli();
         peli.setPelaaja1(new Pelaaja("eka"));
         peli.setPelaaja2(new Pelaaja("toka"));
         peli.setPelaajaVuorossa(peli.getPelaaja2());
@@ -135,7 +126,7 @@ public class PeliTest {
     
     @Test
     public void setPelaajaToimii() throws IOException {
-        Peli peli = new Peli(new Scanner(System.in));
+        Peli peli = new Peli();
         Pelaaja pelaaja = new Pelaaja("Toni");
         peli.setPelaaja1(pelaaja);
         assertEquals(peli.getPelaaja1().getNimi(), "Toni");
@@ -143,75 +134,15 @@ public class PeliTest {
     
     @Test
     public void setPelaajaToimiiII() throws IOException {
-        Peli peli = new Peli(new Scanner(System.in));
+        Peli peli = new Peli();
         Pelaaja pelaaja = new Pelaaja("Suvi");
         peli.setPelaaja2(pelaaja);
         assertEquals(peli.getPelaaja2().getNimi(), "Suvi");
     }
     
     @Test
-    public void valitsePalauttaaOikeanArvon() throws IOException {
-        String syote = "1\n";
-        Peli peli = new Peli(new Scanner(syote));
-        assertEquals(peli.valitse("rivi"), 1);
-    }
-    
-    @Test
-    public void kortinValintaToimii() throws IOException {
-        String syote = "0\n0\n";
-        Peli peli = new Peli(new Scanner(syote));
-        Kortti kortti = new Kortti(3);
-        peli.getPoyta().getRuudukko()[0][0] = kortti;
-        assertEquals(peli.kortinValinta(), kortti);
-    }
-    
-    @Test
-    public void valitsePeliToimii() throws IOException {
-        String syote = "1\n";
-        Peli peli = new Peli(new Scanner(syote));
-        assertEquals(peli.valitsePeli(), 1);
-        String syote2 = "2\n";
-        Peli peli2 = new Peli(new Scanner(syote2));
-        assertEquals(peli2.valitsePeli(), 2);
-    }
-    
-    @Test
-    public void parinLoytyessaLoydettyPariLisataan() throws IOException{
-        String syote = "0\n0\n1\n1\n";
-        Peli peli = new Peli(new Scanner(syote));
-        peli.getPoyta().getRuudukko()[0][0] = new Kortti(8);
-        peli.getPoyta().getRuudukko()[1][1] = new Kortti(8);
-        Pelaaja suvi = new Pelaaja("Suvi");
-        peli.setPelaajaVuorossa(suvi);
-        assertEquals(suvi.getParejaLoydetty(), 0);
-        peli.kierros();
-        assertEquals(suvi.getParejaLoydetty(), 1);
-    }
-    
-    @Test
-    public void josEiPariaKortitKaantyyTakaisin() throws IOException{
-        String syote = "0\n0\n1\n1\n";
-        Peli peli = new Peli(new Scanner(syote));
-        peli.getPoyta().getRuudukko()[0][0] = new Kortti(1);
-        peli.getPoyta().getRuudukko()[1][1] = new Kortti(8);
-        Pelaaja suvi = new Pelaaja("Suvi");
-        peli.kierros();
-        assertEquals(peli.getPoyta().getRuudukko()[0][0].onkoKaannetty(), false);
-    }
-    
-    @Test
-    public void voittajaTulostuuOikein() throws IOException  {
-        Peli peli = new Peli(new Scanner(System.in));
-        peli.setPelaaja1(new Pelaaja("Suvi"));
-        peli.setPelaaja2(new Pelaaja("Toni"));
-        peli.voittaja();
-        String expected =  "Suvi löysi 0 paria.\nToni löysi 0 paria.\r\n";
-        Assert.assertEquals(outContent.toString(), expected);
-    }
-    
-    @Test
     public void voittajaStringOikeinI() throws IOException {
-        Peli peli = new Peli(new Scanner(System.in));
+        Peli peli = new Peli();
         Pelaaja suvi = new Pelaaja("Suvi");
         Pelaaja toni = new Pelaaja("Toni");
         peli.setPelaaja1(suvi);
@@ -221,7 +152,7 @@ public class PeliTest {
     
     @Test
     public void VoittajaStringOikeinII() throws IOException  {
-        Peli peli = new Peli(new Scanner(System.in));
+        Peli peli = new Peli();
         Pelaaja suvi = new Pelaaja("Suvi");
         Pelaaja toni = new Pelaaja("Toni");
         peli.setPelaaja1(suvi);
@@ -232,7 +163,7 @@ public class PeliTest {
     
     @Test
     public void VoittajaStringOikeinIII() throws IOException  {
-        Peli peli = new Peli(new Scanner(System.in));
+        Peli peli = new Peli();
         Pelaaja suvi = new Pelaaja("Suvi");
         Pelaaja toni = new Pelaaja("Toni");
         peli.setPelaaja1(suvi);
@@ -243,157 +174,67 @@ public class PeliTest {
     }
     
     @Test
-    public void valintaTulostuuOikeinVirheellisellaSyotteella() throws IOException{
-        String syote = "a\n1";
-        Peli peli = new Peli(new Scanner(syote));
-        peli.valitse("rivi");
-        String expected =  "Valitse rivi:\r\nValitse 0-3!\r\nValitse rivi:\r\n";
-        Assert.assertEquals(outContent.toString(), expected);
-    }
-    
-    @Test
-    public void valintaTulostuuOikeinVaarallaLuvulla() throws IOException{
-        String syote = "5\n1";
-        Peli peli = new Peli(new Scanner(syote));
-        peli.valitse("rivi");
-        String expected =  "Valitse rivi:\r\nValitse 0-3!\r\nValitse rivi:\r\n";
-        Assert.assertEquals(outContent.toString(), expected);
-    }
-    
-    @Test
-    public void pelinValintaTulostuuOikeinVirheellisellaSyotteella() throws IOException{
-        String syote = "a\n1";
-        Peli peli = new Peli(new Scanner(syote));
-        peli.valitsePeli();
-        String expected =  "Haluatko pelata yksin(1) vai paria vastaan(2)?\r\nValitse 1 tai 2!\r\n"
-                + "Haluatko pelata yksin(1) vai paria vastaan(2)?\r\n";
-        Assert.assertEquals(outContent.toString(), expected);
-    }
-    
-    @Test
-    public void pelinValintaTulostuuOikeinVaarallaLuvulla() throws IOException{
-        String syote = "3\n1";
-        Peli peli = new Peli(new Scanner(syote));
-        peli.valitsePeli();
-        String expected =  "Haluatko pelata yksin(1) vai paria vastaan(2)?\r\nValitse 1 tai 2!\r\n"
-                + "Haluatko pelata yksin(1) vai paria vastaan(2)?\r\n";
-        Assert.assertEquals(outContent.toString(), expected);
-    }
-    
-    @Test
-    public void kortinValintaTulostuuOikeinKaannetyllaKortilla() throws IOException{
-        String syote = "0\n0\n1\n1\n";
-        Peli peli = new Peli(new Scanner(syote));
-        peli.getPoyta().getRuudukko()[0][0].kaanna();
-        peli.kortinValinta();
-        String expected =  "Valitse sarake:\r\nValitse rivi:\r\n"
-                + "Valitse kortti, joka ei ole käännettynä!\r\nValitse sarake:\r\nValitse rivi:\r\n";
-        Assert.assertEquals(outContent.toString(), expected);
-    }
-    
-    @Test
-    public void tuloksenTallennusTulostuuOikein() throws IOException{
-        String syote = "\n";
-        Peli peli = new Peli(new Scanner(syote));
-        peli.tuloksenTallennus();
-        String expected =  "Tallenetaanko tulos? (1=kyllä, muu=ei)\r\n";
-        Assert.assertEquals(outContent.toString(), expected);
-    }
-    
-    @Test
-    public void loydetytParitLisataanPelissa() throws IOException {
-        String syote = "1\nsuvi\n0\n0\n2\n2\n\n";
-        Peli peli = new Peli(new Scanner(syote));
-        
-        int rivi = 0;
-        while(rivi < 4) {
-            int sarake = 0;
-            while (sarake < 4) {
-                peli.getPoyta().getRuudukko()[sarake][rivi] = new Kortti(1);
-                peli.getPoyta().getRuudukko()[sarake][rivi].kaanna();
-                sarake++;
-            }
-            rivi++;
-        }
-        peli.getPoyta().getRuudukko()[0][0].kaanna();
-        peli.getPoyta().getRuudukko()[2][2].kaanna();
-        
-        peli.kaynnista();
-        
-        assertEquals(1, peli.getPelaaja1().getParejaLoydetty());
-    }
-    
-    @Test
-    public void paritLisataanKaksinpelissa() throws IOException {
-        String syote = "2\nsuvi\ntoni\n0\n0\n2\n2\n1\n1\n3\n3\n";
-        Peli peli = new Peli(new Scanner(syote));
-        
-        int rivi = 0;
-        while(rivi < 4) {
-            int sarake = 0;
-            while (sarake < 4) {
-                peli.getPoyta().getRuudukko()[sarake][rivi] = new Kortti(1);
-                peli.getPoyta().getRuudukko()[sarake][rivi].kaanna();
-                sarake++;
-            }
-            rivi++;
-        }
-        peli.getPoyta().getRuudukko()[0][0].kaanna();
-        peli.getPoyta().getRuudukko()[2][2].kaanna();
-        peli.getPoyta().getRuudukko()[1][1].kaanna();
-        peli.getPoyta().getRuudukko()[3][3].kaanna();
-        
-        peli.kaynnista();
-        
-        assertEquals(1, peli.getPelaaja1().getParejaLoydetty());
-        assertEquals(1, peli.getPelaaja2().getParejaLoydetty());
-    }
-    
-    @Test
     public void tuloksenTallennusLisaaTulosrivin() throws IOException {
-        String syote = "1\n";
-        Peli peli = new Peli(new Scanner(syote));
+        Peli peli = new Peli();
         peli.getPelaaja1().setParejaLoydetty(2);
         int rivitAlussa = laskeRivit();
-        peli.tuloksenTallennus();
+        peli.tallennaTulos();
         assertEquals(rivitAlussa+1, laskeRivit());
         poistaVika();
     }
     
+    @Test
+    public void onkoPariPalauttaaFalseJosEriKortit() throws IOException {
+        Peli peli = new Peli();
+        peli.setEkaKaannetty(new Kortti(1));
+        peli.setTokaKaannetty(new Kortti(2));
+        assertFalse(peli.onkoPari());
+    }
+    
+    @Test
+    public void onkoPariPalauttaaTrueJosSamatKortit() throws IOException {
+        Peli peli = new Peli();
+        peli.setEkaKaannetty(new Kortti(1));
+        peli.setTokaKaannetty(new Kortti(1));
+        assertTrue(peli.onkoPari());
+    }
+    
     public void poistaVika() throws FileNotFoundException, IOException {
-        Scanner lukija = new Scanner(new File("src/tulokset.txt"));
-        int riveja = 0;
-        while (lukija.hasNextLine()) {
-            String rivi = lukija.nextLine();
-            riveja++;
+        int riveja;
+        try (Scanner lukija = new Scanner(new File("src/tulokset.txt"))) {
+            riveja = 0;
+            while (lukija.hasNextLine()) {
+                lukija.nextLine();
+                riveja++;
+            }
         }
-        lukija.close();
         
-        Scanner uusilukija = new Scanner(new File("src/tulokset.txt"));
-        String tiedosto = "";
-        int i = 1;
-        while (i < riveja) {
-            String rivi = uusilukija.nextLine();
-            tiedosto+= rivi + "\n";
-            i++;
+        String tiedosto;
+        try (Scanner uusilukija = new Scanner(new File("src/tulokset.txt"))) {
+            tiedosto = "";
+            int i = 1;
+            while (i < riveja) {
+                String rivi = uusilukija.nextLine();
+                tiedosto+= rivi + "\n";
+                i++;
+            }
         }
-        uusilukija.close();
         
-        FileWriter kirjaaja = new FileWriter("src/tulokset.txt");
-        kirjaaja.write(tiedosto);
-        kirjaaja.close();
+        try (FileWriter kirjaaja = new FileWriter("src/tulokset.txt")) {
+            kirjaaja.write(tiedosto);
+        }
     }
     
     public int laskeRivit() throws FileNotFoundException {
-        Scanner lukija = new Scanner(new File("src/tulokset.txt"));
-        int riveja = 0;
-        while (lukija.hasNextLine()) {
-            String rivi = lukija.nextLine();
-            riveja++;
+        int riveja;
+        try (Scanner lukija = new Scanner(new File("src/tulokset.txt"))) {
+            riveja = 0;
+            while (lukija.hasNextLine()) {
+                lukija.nextLine();
+                riveja++;
+            }
         }
-        lukija.close();
         return riveja;
     }
-    
     
 }

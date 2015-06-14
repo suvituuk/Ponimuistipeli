@@ -1,8 +1,7 @@
 package kayttoliittyma;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import muistipeli.muistipeli.Poyta;
+import java.awt.event.*;
+import muistipeli.logiikka.Poyta;
 
 /**
  * ActionListener, joka asettaa ruudukon koon, poistaa koonvalintapainikkeet 
@@ -12,6 +11,11 @@ public class KoonValintaKuuntelija implements ActionListener {
     private final int sivu;
     private final Pelinkaynnistin pk;
     
+    /**
+     * 
+     * @param sivu Ruudukon sivun pituus.
+     * @param pk Pelinkäynnistin, josta toiminto suoritetaan.
+     */
     public KoonValintaKuuntelija(int sivu, Pelinkaynnistin pk) {
         this.pk = pk;
         this.sivu = sivu;
