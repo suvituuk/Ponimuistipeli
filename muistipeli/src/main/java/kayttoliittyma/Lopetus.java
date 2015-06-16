@@ -25,7 +25,7 @@ public class Lopetus implements Runnable {
     public void run() {
         frame = new JFrame("Peli ohi!");
 
-        frame.setPreferredSize(new Dimension(400, 120));
+        frame.setPreferredSize(new Dimension(450, 120));
 
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(kl.getRuudukko());

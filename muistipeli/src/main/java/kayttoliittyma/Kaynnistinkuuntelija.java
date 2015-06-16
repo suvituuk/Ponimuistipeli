@@ -79,8 +79,8 @@ public class Kaynnistinkuuntelija implements ActionListener {
      * Jos syötetty nimimerkki on virheellinen, värjää ongelmaan liittyvän ohjetekstin punaiseksi.
      */
     public void virhe() {
-        kaynnistin.getAnnaNimi().setForeground(Color.BLACK);
-        kaynnistin.getOhjeTekti().setForeground(Color.BLACK);
+        kaynnistin.getAnnaNimi().setForeground(Color.DARK_GRAY);
+        kaynnistin.getOhjeTekti().setForeground(Color.DARK_GRAY);
         if (kaynnistin.getEkaNimikentta().getText().contains("-")) {
             kaynnistin.getAnnaNimi().setForeground(Color.red);
         }
