@@ -12,7 +12,7 @@ public class Tulostenkasittelija {
     private final FileWriter kirjaaja;
 
     public Tulostenkasittelija() throws IOException {
-        this.kirjaaja = new FileWriter("src/tulokset.txt", true);
+        this.kirjaaja = new FileWriter("tulokset.txt", true);
     }
 
     /**
@@ -73,7 +73,7 @@ public class Tulostenkasittelija {
      * @throws IOException 
      */
     public ArrayList<Tulos> tuloksetListana() throws IOException {
-        Scanner lukija = new Scanner(new File("src/tulokset.txt"));
+        Scanner lukija = new Scanner(new File("tulokset.txt"));
         ArrayList<Tulos> tulokset = new ArrayList<>();
         while (lukija.hasNextLine()) {
             String rivi = lukija.nextLine();

@@ -80,7 +80,7 @@ public class TulostenkasittelijaTest {
         String vastaus = "-";
         Tulos tulos = new Tulos(new Pelaaja("pelaaja"), 0, "aika");
         tk.lisaaTulos(tulos);
-        Scanner lukija = new Scanner(new File("src/tulokset.txt"));
+        Scanner lukija = new Scanner(new File("tulokset.txt"));
         while (lukija.hasNextLine()) {
             String rivi = lukija.nextLine();
             String[] osat = rivi.split("-");
@@ -95,7 +95,7 @@ public class TulostenkasittelijaTest {
     }
     
     public void poistaVika() throws FileNotFoundException, IOException {
-        Scanner lukija = new Scanner(new File("src/tulokset.txt"));
+        Scanner lukija = new Scanner(new File("tulokset.txt"));
         int riveja = 0;
         while (lukija.hasNextLine()) {
             String rivi = lukija.nextLine();
@@ -103,7 +103,7 @@ public class TulostenkasittelijaTest {
         }
         lukija.close();
         
-        Scanner uusilukija = new Scanner(new File("src/tulokset.txt"));
+        Scanner uusilukija = new Scanner(new File("tulokset.txt"));
         String tiedosto = "";
         int i = 1;
         while (i < riveja) {
@@ -113,7 +113,7 @@ public class TulostenkasittelijaTest {
         }
         uusilukija.close();
         
-        FileWriter kirjaaja = new FileWriter("src/tulokset.txt");
+        FileWriter kirjaaja = new FileWriter("tulokset.txt");
         kirjaaja.write(tiedosto);
         kirjaaja.close();
     }

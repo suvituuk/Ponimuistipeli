@@ -201,7 +201,7 @@ public class PeliTest {
     
     public void poistaVika() throws FileNotFoundException, IOException {
         int riveja;
-        try (Scanner lukija = new Scanner(new File("src/tulokset.txt"))) {
+        try (Scanner lukija = new Scanner(new File("tulokset.txt"))) {
             riveja = 0;
             while (lukija.hasNextLine()) {
                 lukija.nextLine();
@@ -210,7 +210,7 @@ public class PeliTest {
         }
         
         String tiedosto;
-        try (Scanner uusilukija = new Scanner(new File("src/tulokset.txt"))) {
+        try (Scanner uusilukija = new Scanner(new File("tulokset.txt"))) {
             tiedosto = "";
             int i = 1;
             while (i < riveja) {
@@ -220,14 +220,14 @@ public class PeliTest {
             }
         }
         
-        try (FileWriter kirjaaja = new FileWriter("src/tulokset.txt")) {
+        try (FileWriter kirjaaja = new FileWriter("tulokset.txt")) {
             kirjaaja.write(tiedosto);
         }
     }
     
     public int laskeRivit() throws FileNotFoundException {
         int riveja;
-        try (Scanner lukija = new Scanner(new File("src/tulokset.txt"))) {
+        try (Scanner lukija = new Scanner(new File("tulokset.txt"))) {
             riveja = 0;
             while (lukija.hasNextLine()) {
                 lukija.nextLine();

@@ -101,7 +101,7 @@ public class Lopetus implements Runnable {
      * @return palautettava teksti
      */
     private String pisteTeksti() {
-        String teksti = "Sait " + pistemaara() + " pistettä!";
+        String teksti = "Sait " + kl.getPeli().pisteet() + " pistettä!";
         if (!pelaajanNimi().isEmpty()) {
             teksti += " Tallennetaanko tulos?";
         }
@@ -121,12 +121,6 @@ public class Lopetus implements Runnable {
 
     public JFrame getFrame() {
         return this.frame;
-    }
-
-    private int pistemaara() {
-        double alkupisteet = ((double) kl.getPeli().getPoyta().getKortteja() / kl.getPeli().getKlikkauksia()) * 1000;
-        int pisteet = (int) (alkupisteet + (kl.getPeli().getPoyta().getKortteja() * 2));
-        return pisteet;
     }
 
     private void luoPainikkeet(Container container) {

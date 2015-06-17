@@ -131,11 +131,11 @@ public class Pelinkaynnistin implements Runnable {
      * @param container Container, johon painikkeet asetetaan.
      */
     private void luoNappulat(Container container) {
-        yksinpeli = new JButton("yksinpeli");
+        yksinpeli = new JButton("Yksinpeli");
         yksinpeli.addActionListener(new Pelinvalitsinkuuntelija(this, 1));
         teeHienoPinkkiNappula(yksinpeli);
         container.add(yksinpeli);
-        kaksinpeli = new JButton("kaksinpeli");
+        kaksinpeli = new JButton("Kaksinpeli");
         kaksinpeli.addActionListener(new Pelinvalitsinkuuntelija(this, 2));
         teeHienoPinkkiNappula(kaksinpeli);
         container.add(kaksinpeli);

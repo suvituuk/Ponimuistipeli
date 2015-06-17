@@ -39,10 +39,14 @@ public class Peli {
      * @throws IOException 
      */
     public void tallennaTulos() throws IOException {
-        double alkupisteet = ((double)this.poyta.getKortteja()/this.klikkauksia)*1000;
-        int pisteet = (int) (alkupisteet+(this.poyta.getKortteja()*2));
-        Tulos tulos = new Tulos(pelaaja1, pisteet, aika());
+        Tulos tulos = new Tulos(pelaaja1, pisteet(), aika());
         this.tulokset.lisaaTulos(tulos);
+    }
+    
+    public int pisteet() {
+        double alkupisteet = ((double)this.poyta.getKortteja()/this.klikkauksia)*1000;
+        int pisteet = (int) (alkupisteet+(this.poyta.getKortteja()*10));
+        return pisteet;
     }
     
     /**
