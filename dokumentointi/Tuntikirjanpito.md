@@ -34,3 +34,11 @@
 -Javadoc, bugien korjailua 2h
 11.6.2015
 -Javadoc, uusi sekvenssikaavio 1h
+13.6.2015
+-Lopetus-käyttöliittymä 2h
+14.6.2015
+-Ohjelman hiomista 3h
+17.6.2015
+-Uusi sekvenssikaavio, pistelaskun säätöä, koodin hiomista 2h
+18.6.2015
+-Luokkakaavion päivitys, rakennekuvaus, javadoc, bugin korjaus, checkstyle 4h

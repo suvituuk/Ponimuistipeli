@@ -10,7 +10,7 @@ public class Kortti {
     /**
      * 
      * Kortissa on joku tietty poni, käytännössä numeroarvo 0-7 ja sitä vastaava kuva.
-     * @param numero 
+     * @param numero Numero, jota vastaava poni kortissa on.
      */
     public Kortti(int numero) {
         kaannetty = false;
@@ -21,7 +21,7 @@ public class Kortti {
     /**
      * Kääntää kortin.
      */
-    public void kaanna(){
+    public void kaanna() {
         this.kaannetty = kaannetty == false;
     }
     
@@ -29,15 +29,15 @@ public class Kortti {
      * Onko kortti käännettynä.
      * @return true/false
      */
-    public boolean onkoKaannetty(){
+    public boolean onkoKaannetty() {
         return kaannetty;
     }
     
-    public int getPoni(){
+    public int getPoni() {
         return poni;
     }
     
-    private void setKuva(){
+    private void setKuva() {
         if (this.poni == 0) {
             this.kuva = new ImageIcon("kuvat/twilight.jpg");
         } else if (this.poni == 1) {
@@ -84,8 +84,8 @@ public class Kortti {
     }
     
     @Override
-    public String toString(){
-        if (onkoKaannetty()){
+    public String toString() {
+        if (onkoKaannetty()) {
             return "" + this.getPoni();
         }
         return "x";

@@ -8,7 +8,6 @@ import java.util.Objects;
  * Pelillä on tulos (pisteet lasketaan klikkausten ja ruudukon koon perusteella) jonka voi
  * halutessaan tallentaa. Tulokseen liittyy myös tuloksen tekijä eli pelaaja ja aika.
  *
- * @throws IOException
  */
 public class Tulos implements Comparable {
 
@@ -16,6 +15,13 @@ public class Tulos implements Comparable {
     private final int tulos;
     private final String aika;
 
+    /**
+     * 
+     * @param pelaaja Pelaaja, joka on tehnyt tuloksen
+     * @param tulos Pistemäärä
+     * @param aika Aika, jolloin tulos on tehty
+     * @throws IOException poikkeus
+     */
     public Tulos(Pelaaja pelaaja, int tulos, String aika) throws IOException {
         this.pelaaja = pelaaja;
         this.tulos = tulos;
@@ -61,9 +67,6 @@ public class Tulos implements Comparable {
         if (!Objects.equals(this.pelaaja, other.pelaaja)) {
             return false;
         }
-        if (this.tulos != other.tulos) {
-            return false;
-        }
-        return true;
+        return this.tulos == other.tulos;
     }
 }

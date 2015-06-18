@@ -2,7 +2,7 @@ package muistipeli.logiikka;
 
 import java.io.IOException;
 import javax.swing.SwingUtilities;
-import kayttoliittyma.Pelinkaynnistin;
+import muistipeli.kayttoliittyma.Pelinkaynnistin;
 
 public class Main {
 

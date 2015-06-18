@@ -22,6 +22,9 @@ public class Peli {
     private int pelaajia;
     private Pelaaja pelaajaVuorossa;
 
+    /**
+     * @throws IOException poikkeus
+     */
     public Peli() throws IOException {
         poyta = new Poyta(4);
         this.klikkauksia = 0;
@@ -36,16 +39,20 @@ public class Peli {
 
     /**
      * Tallentaa pelin tuloksen.
-     * @throws IOException 
+     * @throws IOException poikkeus
      */
     public void tallennaTulos() throws IOException {
         Tulos tulos = new Tulos(pelaaja1, pisteet(), aika());
         this.tulokset.lisaaTulos(tulos);
     }
     
+    /**
+     * Laskee pelin pisteet klikkausten määrän ja ruudukon koon perusteella.
+     * @return pistemäärä
+     */
     public int pisteet() {
-        double alkupisteet = ((double)this.poyta.getKortteja()/this.klikkauksia)*1000;
-        int pisteet = (int) (alkupisteet+(this.poyta.getKortteja()*10));
+        double alkupisteet = ((double) this.poyta.getKortteja() / this.klikkauksia) * 1000;
+        int pisteet = (int) (alkupisteet + (this.poyta.getKortteja() * 10));
         return pisteet;
     }
     
@@ -61,7 +68,6 @@ public class Peli {
     }
 
     /**
-     *
      * Kertoo kaksinpelin voittajan ja sen, kuinka monta paria kumpikin
      * pelaaja löysi.
      * @return palauttaa voittajan stringinä
@@ -106,19 +112,21 @@ public class Peli {
         }
     }
     
+    /**
+     * Tarkistaa, ovatko kierroksen ensimmäinen ja toinen käännetty kortti pari.
+     * @return true(on pari)/false(ei pari)
+     */
     public boolean onkoPari() {
         return ekaKaannetty.getPoni() == tokaKaannetty.getPoni();
     }
 
     /**
      * Kääntää kortin.
-     *
      * @param kortti käännettävä kortti
      */
     public void kortinKaanto(Kortti kortti) {
         kortti.kaanna();
         this.klikkauksia += 1;
-//        System.out.println("\n" + poyta.toString());
     }
     
     public void setKorttejaKaannettyKierroksella(int kaannetty) {
